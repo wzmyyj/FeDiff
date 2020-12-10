@@ -13,3 +13,6 @@ java {
     sourceCompatibility = JavaVersion.VERSION_1_7
     targetCompatibility = JavaVersion.VERSION_1_7
 }
+
+apply { plugin(PluginId.github_maven) }
+group = "com.github.wzmyyj"
