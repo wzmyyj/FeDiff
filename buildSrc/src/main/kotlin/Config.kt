@@ -10,7 +10,7 @@
 
 object AppConfig {
     const val applicationId = "top.wzmyyj.fediff"
-    const val versionName = "1.0.0"
+    const val versionName = "1.0.1"
 }
 
 object AndroidConfig {
