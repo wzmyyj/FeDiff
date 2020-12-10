@@ -1,0 +1,5 @@
+include ':lib_diff_api'
+include ':lib_diff_compiler'
+include ':lib_diff_annotation'
+include ':app'
+rootProject.name = "FeDiff"
