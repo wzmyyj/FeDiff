@@ -29,7 +29,7 @@ public final class DiffModelHelper {
      *
      * @param use 是否使用
      */
-    public void isSameItemByObjectsEquals(boolean use) {
+    public synchronized void isSameItemByObjectsEquals(boolean use) {
         this.byObjectsEquals = use;
     }
 
@@ -40,7 +40,7 @@ public final class DiffModelHelper {
      * @param newModel 新数据
      * @return 是否同一行
      */
-    public boolean isSameItem(@NonNull Object oldModel, @NonNull Object newModel) {
+    public synchronized boolean isSameItem(@NonNull Object oldModel, @NonNull Object newModel) {
         IDiffModelType diff = findDiff(oldModel);
         if (diff == null) return false;
         if (diff.canHandle(newModel) && diff.sameItemCount() > 0) {
@@ -56,7 +56,7 @@ public final class DiffModelHelper {
      * @param newModel 新数据
      * @return 是否相同
      */
-    public boolean isSameContent(@NonNull Object oldModel, @NonNull Object newModel) {
+    public synchronized boolean isSameContent(@NonNull Object oldModel, @NonNull Object newModel) {
         IDiffModelType diff = findDiff(oldModel);
         if (diff == null) return false;
         if (diff.canHandle(newModel) && diff.sameContentCount() > 0) {
@@ -73,7 +73,7 @@ public final class DiffModelHelper {
      * @return 差异
      */
     @Nullable
-    public Payload getPayload(@NonNull Object oldModel, @NonNull Object newModel) {
+    public synchronized Payload getPayload(@NonNull Object oldModel, @NonNull Object newModel) {
         IDiffModelType diff = findDiff(oldModel);
         if (diff == null) return null;
         if (diff.canHandle(newModel) && diff.sameContentCount() > 0) {
@@ -88,7 +88,7 @@ public final class DiffModelHelper {
      * @param bindObj  绑定的对象
      * @param newModel 绑定的数据
      */
-    public void bindNewData(@NonNull Object bindObj, @NonNull Object newModel) {
+    public synchronized void bindNewData(@NonNull Object bindObj, @NonNull Object newModel) {
         Data data = bindMap.get(bindObj);
         if (data != null && data.diff.canHandle(newModel)) {
             data.diff.from(newModel);
