@@ -30,3 +30,7 @@ object PluginId {
 object Classpath {
     const val github_maven_plugin = "com.github.dcendents:android-maven-gradle-plugin:2.1"
 }
+
+object Publish {
+    const val github_group = "com.github.wzmyyj"
+}

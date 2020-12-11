@@ -15,4 +15,4 @@ java {
 }
 
 apply { plugin(PluginId.github_maven) }
-group = "com.github.wzmyyj"
+group = Publish.github_group
