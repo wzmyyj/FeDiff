@@ -17,8 +17,7 @@ public class YyModel {
 
     @SameContent
     public String title;
-
+//    //这里不能这样用哦，否则就跟XxModel产生回环了。
 //    @SameType()
-//    public XxModel zz;
-
+//    public XxModel xx;
 }

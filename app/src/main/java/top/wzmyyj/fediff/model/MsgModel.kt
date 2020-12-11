@@ -11,23 +11,19 @@ import top.wzmyyj.diff_annotation.SameType
  * @version 1.1.0
  * @since 1.1.0
  */
-class HhModel {
+class MsgModel {
 
     @SameItem
     var id: Long = 0
 
     @SameContent
-    var name: String? = null
-
-    @SameItem()
-    var isX = false
+    var content: String? = null
 
     @SameContent
-    var is_X: Boolean? = false
+    var time: Long = 0L
 
-    @SameContent
-    var vvv: Boolean? = false
+    var valid = false
 
     @SameType
-    var yy: YyModel? = null
+    var user: UserModel? = null
 }
