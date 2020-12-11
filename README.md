@@ -5,7 +5,7 @@
 A Model Diff Tools.
 
 
-#### Dependencies
+#### Dependencies 
 Project.build.gradle.kts
 ```
 allprojects {
@@ -16,11 +16,11 @@ allprojects {
     }
 }
 ```
-app.build.gradle.kts
+app.build.gradle.kts：lastVersion = 1.1.0-beta03
 ```
- implementation("com.github.wzmyyj.FeDiff:lib_diff_api:1.0.1")
- // or kotlin use: kapt("com.github.wzmyyj.FeDiff:lib_diff_compiler:1.1.0-beta03") 
- annotationProcessor("com.github.wzmyyj.FeDiff:lib_diff_compiler:1.1.0-beta03")
+ implementation("com.github.wzmyyj.FeDiff:lib_diff_api:lastVersion")
+ // or kotlin use kapt
+ annotationProcessor("com.github.wzmyyj.FeDiff:lib_diff_compiler:lastVersion")
 ```
 #### How Use
 model
