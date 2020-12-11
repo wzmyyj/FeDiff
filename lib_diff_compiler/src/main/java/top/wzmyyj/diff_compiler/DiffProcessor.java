@@ -42,6 +42,7 @@ import top.wzmyyj.diff_compiler.utils.EmptyUtils;
 
 import static javax.tools.Diagnostic.Kind.ERROR;
 import static javax.tools.Diagnostic.Kind.NOTE;
+import static top.wzmyyj.diff_compiler.utils.ProcessorConfig.BOOLEAN_TYPE;
 import static top.wzmyyj.diff_compiler.utils.ProcessorConfig.DIFF_ANNOTATION_SAME_CONTENT;
 import static top.wzmyyj.diff_compiler.utils.ProcessorConfig.DIFF_ANNOTATION_SAME_ITEM;
 import static top.wzmyyj.diff_compiler.utils.ProcessorConfig.DIFF_ANNOTATION_SAME_TYPE;
@@ -478,12 +479,12 @@ public class DiffProcessor extends AbstractProcessor {
         }
         for (VariableElement element : node.sameItemList) {
             methodBuilder3.addStatement("if (!$T.equals(this.$L,$N.$L)) return false",
-                    Objects.class, element.getSimpleName(), "m", element.getSimpleName());
+                    Objects.class, element.getSimpleName(), "m", spellGetFunction(element));
         }
         for (VariableElement element : node.sameTypeMap.keySet()) {
             if (node.sameTypeMap.get(element).sameItemCount == 0) continue;
             methodBuilder3.addStatement("if (!this.$L.isSameItem($N.$L)) return false",
-                    element.getSimpleName(), "m", element.getSimpleName());
+                    element.getSimpleName(), "m", spellGetFunction(element));
         }
         methodBuilder3.addStatement("return $L", node.sameItemCount > 0);
         methodSpecList.add(methodBuilder3.build());
@@ -500,12 +501,12 @@ public class DiffProcessor extends AbstractProcessor {
         }
         for (VariableElement element : node.sameContentList) {
             methodBuilder4.addStatement("if (!$T.equals(this.$L,$N.$L)) return false",
-                    Objects.class, element.getSimpleName(), "m", element.getSimpleName());
+                    Objects.class, element.getSimpleName(), "m", spellGetFunction(element));
         }
         for (VariableElement element : node.sameTypeMap.keySet()) {
             if (node.sameTypeMap.get(element).sameContentCount == 0) continue;
             methodBuilder4.addStatement("if (!this.$L.isSameContent($N.$L)) return false",
-                    element.getSimpleName(), "m", element.getSimpleName());
+                    element.getSimpleName(), "m", spellGetFunction(element));
         }
         methodBuilder4.addStatement("return $L", node.sameContentCount > 0);
         methodSpecList.add(methodBuilder4.build());
@@ -531,11 +532,11 @@ public class DiffProcessor extends AbstractProcessor {
         }
         for (VariableElement element : node.mainSet) {
             methodBuilder6.addStatement("this.$L = $N.$L",
-                    element.getSimpleName(), "m", element.getSimpleName());
+                    element.getSimpleName(), "m", spellGetFunction(element));
         }
         for (VariableElement element : node.sameTypeMap.keySet()) {
             methodBuilder6.addStatement("this.$L.from($N.$L)",
-                    element.getSimpleName(), "m", element.getSimpleName());
+                    element.getSimpleName(), "m", spellGetFunction(element));
         }
         methodSpecList.add(methodBuilder6.build());
 
@@ -563,8 +564,8 @@ public class DiffProcessor extends AbstractProcessor {
             keySet.add(key);
             methodBuilder7
                     .beginControlFlow("if (!$T.equals(this.$L, $N.$L))",
-                            Objects.class, element.getSimpleName(), "m", element.getSimpleName())
-                    .addStatement("$N.put($S, $N.$L)", "p", key, "m", element.getSimpleName())
+                            Objects.class, element.getSimpleName(), "m", spellGetFunction(element))
+                    .addStatement("$N.put($S, $N.$L)", "p", key, "m", spellGetFunction(element))
                     .endControlFlow();
         }
         for (VariableElement element : node.sameTypeMap.keySet()) {
@@ -577,8 +578,8 @@ public class DiffProcessor extends AbstractProcessor {
             keySet.add(key);
             methodBuilder7
                     .beginControlFlow("if (!this.$L.isSameContent($N.$L))",
-                            element.getSimpleName(), "m", element.getSimpleName())
-                    .addStatement("$N.put($S, $N.$L)", "p", key, "m", element.getSimpleName())
+                            element.getSimpleName(), "m", spellGetFunction(element))
+                    .addStatement("$N.put($S, $N.$L)", "p", key, "m", spellGetFunction(element))
                     .endControlFlow();
         }
         methodBuilder7.addStatement("return $N", "p");
@@ -726,6 +727,43 @@ public class DiffProcessor extends AbstractProcessor {
                 .build() // JavaFile构建完成
                 .writeTo(filer); // 文件生成器开始生成类文件
     }
+
+    /**
+     * 获取 字段名 或者 Get 方法名字 + ().
+     *
+     * @param element VariableElement
+     * @return GetFunction
+     */
+    private String spellGetFunction(VariableElement element) {
+        if (element.getModifiers().contains(Modifier.PUBLIC)) {
+            return element.getSimpleName().toString();
+        } else {
+            String name = element.getSimpleName().toString();
+            if (element.asType().getKind() == TypeKind.BOOLEAN
+                    || element.asType().toString().equalsIgnoreCase(BOOLEAN_TYPE)) {
+                byte[] items = name.getBytes();
+                if (items.length >= 3) {
+                    char c0 = (char) items[0];
+                    char c1 = (char) items[1];
+                    char c2 = (char) items[2];
+                    if (c0 == 'i' && c1 == 's' && (c2 < 'a' || c2 > 'z')) {
+                        return name + "()";
+                    }
+                }
+            }
+            return "get" + toUpper(name) + "()";
+        }
+    }
+
+    public static String toUpper(String str) {
+        if (EmptyUtils.isNullOrEmpty(str)) return "X";
+        byte[] items = str.getBytes();
+        char f = (char) items[0];
+        if (f < 'a' || f > 'z') return str;
+        items[0] = (byte) (f - 'a' + 'A');
+        return new String(items);
+    }
+
 
     private void note(String msg) {
         messager.printMessage(NOTE, msg + "; ");
