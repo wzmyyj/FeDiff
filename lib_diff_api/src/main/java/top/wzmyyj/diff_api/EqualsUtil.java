@@ -14,6 +14,9 @@ import java.util.Objects;
 @SuppressWarnings("unused")
 public final class EqualsUtil {
 
+    private static final float FLOAT_ACCURACY = 0.000001f;
+    private static final double DOUBLE_ACCURACY = 0.00000001;
+
     public static boolean unEquals(boolean x, boolean y) {
         return x != y;
     }
@@ -39,11 +42,11 @@ public final class EqualsUtil {
     }
 
     public static boolean unEquals(float x, float y) {
-        return Math.abs(x - y) > 0.000001f;
+        return Math.abs(x - y) > FLOAT_ACCURACY;
     }
 
     public static boolean unEquals(double x, double y) {
-        return Math.abs(x - y) > 0.00000001;
+        return Math.abs(x - y) > DOUBLE_ACCURACY;
     }
 
     public static boolean unEquals(@Nullable Object x, @Nullable Object y) {
