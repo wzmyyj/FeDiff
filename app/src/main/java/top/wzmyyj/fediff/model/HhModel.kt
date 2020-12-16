@@ -23,7 +23,7 @@ class HhModel {
     var isX = false
 
     @SameContent
-    var is_X: Boolean? = false
+    var is_X: Boolean = false
 
     @SameContent
     var vvv: Boolean? = false

@@ -16,7 +16,7 @@ import java.util.Set;
  * @version 1.0.0
  * @since 1.0.0
  */
-public class Payload {
+public final class Payload {
 
     private static final String TAG = Payload.class.getSimpleName();
 

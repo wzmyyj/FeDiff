@@ -32,6 +32,7 @@ public interface ProcessorConfig {
     String TYPE_PAYLOAD = DIFF_API_PACKAGE + ".Payload";
     String TYPE_FACTORY = DIFF_API_PACKAGE + ".IDiffModelFactory";
     String TYPE_FACTORY_HELPER = DIFF_API_PACKAGE + ".IDiffCreateFactoryHelper";
+    String TYPE_EQUALS_UTIL = DIFF_API_PACKAGE + ".EqualsUtil";
 
     String BOOLEAN_TYPE = "java.lang.Boolean";
 

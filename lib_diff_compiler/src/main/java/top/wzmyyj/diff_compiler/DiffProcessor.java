@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -52,6 +51,7 @@ import static top.wzmyyj.diff_compiler.utils.ProcessorConfig.FACTORY_NAME_LAST;
 import static top.wzmyyj.diff_compiler.utils.ProcessorConfig.FACTORY_PACKAGE_LAST;
 import static top.wzmyyj.diff_compiler.utils.ProcessorConfig.MODEL_NAME_LAST;
 import static top.wzmyyj.diff_compiler.utils.ProcessorConfig.MODEL_PACKAGE_LAST;
+import static top.wzmyyj.diff_compiler.utils.ProcessorConfig.TYPE_EQUALS_UTIL;
 import static top.wzmyyj.diff_compiler.utils.ProcessorConfig.TYPE_FACTORY;
 import static top.wzmyyj.diff_compiler.utils.ProcessorConfig.TYPE_FACTORY_HELPER;
 import static top.wzmyyj.diff_compiler.utils.ProcessorConfig.TYPE_MODEL_TYPE;
@@ -354,6 +354,7 @@ public class DiffProcessor extends AbstractProcessor {
     // 记录是否进入过createModelFile方法，防止造成无限递归。
     private final Set<ElementNode> createModelNodeSet = new HashSet<>();
     private TypeElement modelType = null;
+    private TypeElement utilType = null;
     private TypeElement payloadType = null;
     private TypeElement factoryType = null;
     private TypeElement helperType = null;
@@ -364,11 +365,15 @@ public class DiffProcessor extends AbstractProcessor {
     private void createAllModelFile() {
         modelType = elementTool.getTypeElement(TYPE_MODEL_TYPE);
         payloadType = elementTool.getTypeElement(TYPE_PAYLOAD);
+        utilType = elementTool.getTypeElement(TYPE_EQUALS_UTIL);
         if (modelType == null) {
             error("没找到" + TYPE_MODEL_TYPE);
         }
         if (payloadType == null) {
             error("没找到" + TYPE_PAYLOAD);
+        }
+        if (utilType == null) {
+            error("没找到" + TYPE_EQUALS_UTIL);
         }
         createModelNodeSet.clear();
         // 从每个叶子子类开始
@@ -478,8 +483,8 @@ public class DiffProcessor extends AbstractProcessor {
             methodBuilder3.addStatement("if (!super.isSameContent($N)) return false", "m");
         }
         for (VariableElement element : node.sameItemList) {
-            methodBuilder3.addStatement("if (!$T.equals(this.$L,$N.$L)) return false",
-                    Objects.class, element.getSimpleName(), "m", spellGetFunction(element));
+            methodBuilder3.addStatement("if ($T.unEquals(this.$L,$N.$L)) return false",
+                    ClassName.get(utilType), element.getSimpleName(), "m", spellGetFunction(element));
         }
         for (VariableElement element : node.sameTypeMap.keySet()) {
             if (node.sameTypeMap.get(element).sameItemCount == 0) continue;
@@ -500,8 +505,8 @@ public class DiffProcessor extends AbstractProcessor {
             methodBuilder4.addStatement("if (!super.isSameContent($N)) return false", "m");
         }
         for (VariableElement element : node.sameContentList) {
-            methodBuilder4.addStatement("if (!$T.equals(this.$L,$N.$L)) return false",
-                    Objects.class, element.getSimpleName(), "m", spellGetFunction(element));
+            methodBuilder4.addStatement("if ($T.unEquals(this.$L,$N.$L)) return false",
+                    ClassName.get(utilType), element.getSimpleName(), "m", spellGetFunction(element));
         }
         for (VariableElement element : node.sameTypeMap.keySet()) {
             if (node.sameTypeMap.get(element).sameContentCount == 0) continue;
@@ -563,8 +568,8 @@ public class DiffProcessor extends AbstractProcessor {
             }
             keySet.add(key);
             methodBuilder7
-                    .beginControlFlow("if (!$T.equals(this.$L, $N.$L))",
-                            Objects.class, element.getSimpleName(), "m", spellGetFunction(element))
+                    .beginControlFlow("if ($T.unEquals(this.$L, $N.$L))",
+                            ClassName.get(utilType), element.getSimpleName(), "m", spellGetFunction(element))
                     .addStatement("$N.put($S, $N.$L)", "p", key, "m", spellGetFunction(element))
                     .endControlFlow();
         }

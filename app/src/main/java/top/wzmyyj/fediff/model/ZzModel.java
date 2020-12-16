@@ -12,5 +12,5 @@ import top.wzmyyj.diff_annotation.SameContent;
 public class ZzModel extends XxModel {
 
     @SameContent
-    public boolean zzz;
+    public boolean[] zzz;
 }
