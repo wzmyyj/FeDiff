@@ -4,6 +4,7 @@
 
 A Model Diff Tools.
 
+Blog: [https://www.jianshu.com/p/93bf18bc46b3](https://www.jianshu.com/p/93bf18bc46b3)
 
 #### Dependencies 
 Project.build.gradle.kts
