@@ -98,7 +98,7 @@ public class DiffProcessor extends AbstractProcessor {
 //    private String packageName;
 
     // 单链表缓存数据和处理继承关系
-    static class ElementNode {
+    private static class ElementNode {
         // 当前类型
         public TypeElement data = null;
         // 集合中最近的父类类型，下一个节点
@@ -392,7 +392,7 @@ public class DiffProcessor extends AbstractProcessor {
         if (node == null) return;
         if (tempModelMap.get(node) != null) return;// 生成过了
         if (createModelNodeSet.contains(node)) {
-            error("小老弟 写的 @SameType 的属性 存在闭环呀！" + node.data.getQualifiedName());
+            error("小老弟 写的 @SameType 的属性 存在回环呀！" + node.data.getQualifiedName());
         }
         createModelNodeSet.add(node);
         // 优先生成父类文件
