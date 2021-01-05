@@ -320,8 +320,6 @@ public class DiffProcessor extends AbstractProcessor {
                 }
             }
         }
-
-
     }
 
     /**
@@ -422,8 +420,6 @@ public class DiffProcessor extends AbstractProcessor {
         } catch (Exception e) {
             error(e.getMessage());
         }
-
-
     }
 
     /**
@@ -760,7 +756,7 @@ public class DiffProcessor extends AbstractProcessor {
         }
     }
 
-    public static String toUpper(String str) {
+    private static String toUpper(String str) {
         if (EmptyUtils.isNullOrEmpty(str)) return "X";
         byte[] items = str.getBytes();
         char f = (char) items[0];
@@ -768,7 +764,6 @@ public class DiffProcessor extends AbstractProcessor {
         items[0] = (byte) (f - 'a' + 'A');
         return new String(items);
     }
-
 
     private void note(String msg) {
         messager.printMessage(NOTE, msg + "; ");
