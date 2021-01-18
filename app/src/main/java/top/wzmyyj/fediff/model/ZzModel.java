@@ -9,7 +9,7 @@ import top.wzmyyj.diff_annotation.SameContent;
  * @version 1
  * @since 1
  */
-public class ZzModel extends XxModel {
+public class ZzModel extends BbModel {
 
     @SameContent
     public boolean[] zzz;
