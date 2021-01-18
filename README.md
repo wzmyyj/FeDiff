@@ -17,7 +17,7 @@ allprojects {
     }
 }
 ```
-app.build.gradle.kts：lastVersion = 1.1.0-beta04
+app.build.gradle.kts：lastVersion = 1.2.0-beta1
 ```
  implementation("com.github.wzmyyj.FeDiff:lib_diff_api:lastVersion")
  // or kotlin use kapt
