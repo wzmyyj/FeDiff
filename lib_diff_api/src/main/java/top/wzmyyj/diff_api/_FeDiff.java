@@ -1,6 +1,9 @@
 package top.wzmyyj.diff_api;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
 import java.io.IOException;
@@ -27,6 +30,7 @@ final class _FeDiff {
     public static ILogger logger = new DefaultLogger();
     private Application mContext;
     private boolean debug = false;
+    private final FactoryManager factoryManager = new FactoryManager();
 
     public static _FeDiff getInstance() {
         if (instance == null) {
@@ -56,38 +60,75 @@ final class _FeDiff {
         return debug;
     }
 
-    private final FactoryManager factoryManager = new FactoryManager();
-
     public FactoryManager getFactoryManager() {
         return factoryManager;
     }
 
+
+    //-----------------------private method----------------------------//
+
     private void startFind() {
+        Set<String> set = readSetFromSp();
+        logger.info(Constants.TAG, "sp fhp set: " + set);
+        if (set != null && !set.isEmpty()) {
+            factoryManager.addHelpers(loadClass(set));
+            return;
+        }
         DefaultPoolExecutor.getInstance().execute(() -> {
             synchronized (factoryManager) {
-                findClass();
+                scanDexFile();
             }
         });
     }
 
-    private void findClass() {
+    private void scanDexFile() {
         try {
             Set<String> set = ClassUtil.getFileNameByPackageName(mContext,
                     DefaultPoolExecutor.getInstance(), Constants.FACTORY_HELPER_PACKAGE_NAME);
-            logger.info(Constants.TAG, "find class set: size= " + set.size() + " " + set);
-            List<IDiffFactoryHelper> helperList = new ArrayList<>();
-            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-            for (String clz : set) {
-                Object o = Class.forName(clz, true, classLoader);
-                if (o instanceof IDiffFactoryHelper) {
-                    helperList.add((IDiffFactoryHelper) o);
-                }
-            }
-            _FeDiff.getInstance().factoryManager.addHelpers(helperList);
-        } catch (PackageManager.NameNotFoundException | IOException
-                | InterruptedException | ClassNotFoundException e) {
-            logger.error(Constants.TAG, "find class error: " + e.getMessage());
+            logger.info(Constants.TAG, "scan dex set: " + set);
+            writeSetInSp(set);
+            factoryManager.addHelpers(loadClass(set));
+        } catch (PackageManager.NameNotFoundException | IOException | InterruptedException e) {
+            logger.error(Constants.TAG, "scan dex error: " + e.getMessage());
         }
     }
 
+    private List<IDiffFactoryHelper> loadClass(Set<String> set) {
+        List<IDiffFactoryHelper> helperList = new ArrayList<>();
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        for (String clz : set) {
+            try {
+                Object o = Class.forName(clz, true, classLoader).newInstance();
+                if (o instanceof IDiffFactoryHelper) {
+                    helperList.add((IDiffFactoryHelper) o);
+                }
+            } catch (IllegalAccessException | InstantiationException | ClassNotFoundException e) {
+                logger.error(Constants.TAG, "load class error: " + e.getMessage());
+            }
+        }
+        logger.info(Constants.TAG, "helperList: size= " + helperList.size());
+        return helperList;
+    }
+
+    private synchronized Set<String> readSetFromSp() {
+        SharedPreferences sp = mContext.getSharedPreferences(Constants.SP_NAME,
+                Context.MODE_PRIVATE | Context.MODE_MULTI_PROCESS);
+        return sp.getStringSet(Constants.SP_FHP_KEY + getVersionCode(), null);
+    }
+
+    private synchronized void writeSetInSp(Set<String> set) {
+        SharedPreferences sp = mContext.getSharedPreferences(Constants.SP_NAME,
+                Context.MODE_PRIVATE | Context.MODE_MULTI_PROCESS);
+        sp.edit().putStringSet(Constants.SP_FHP_KEY + getVersionCode(), set).apply();
+    }
+
+    private int getVersionCode() {
+        try {
+            PackageInfo pi = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
+            return pi.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            logger.error(Constants.TAG, "getVersionCode error:  " + e.getMessage());
+        }
+        return -1;
+    }
 }
