@@ -1,0 +1,19 @@
+top/wzmyyj/login/diff_model/Diff$$Model$$LoginModel.java
+ top.wzmyyj.login.diff_model.Diff$$Model$$LoginModel
+ top.wzmyyj.login.diff_model.Diff$$Model$$LoginModel$Factory
+top/wzmyyj/login/DataBindingInfo.java
+ top.wzmyyj.login.DataBindingInfo
+top/wzmyyj/login/BR.java
+ top.wzmyyj.login.BR
+top/wzmyyj/login/BuildConfig.java
+ top.wzmyyj.login.BuildConfig
+top/wzmyyj/login/DataBinderMapperImpl.java
+ top.wzmyyj.login.DataBinderMapperImpl
+ top.wzmyyj.login.DataBinderMapperImpl$InnerBrLookup
+ top.wzmyyj.login.DataBinderMapperImpl$InnerLayoutIdLookup
+androidx/databinding/library/baseAdapters/BR.java
+ androidx.databinding.library.baseAdapters.BR
+androidx/databinding/DataBindingComponent.java
+ androidx.databinding.DataBindingComponent
+top/wzmyyj/diff_api/factory_helper/Diff$$FactoryHelperImpl_login.java
+ top.wzmyyj.diff_api.factory_helper.Diff$$FactoryHelperImpl_login

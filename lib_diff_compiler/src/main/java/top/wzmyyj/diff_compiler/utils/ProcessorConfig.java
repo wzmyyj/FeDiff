@@ -15,24 +15,21 @@ public interface ProcessorConfig {
     String DIFF_ANNOTATION_SAME_TYPE = "top.wzmyyj.diff_annotation.SameType";
 
     // 接收参数的TAG标记
-//    String OPTIONS_MODULE_NAME = "moduleNameForDiffAPT"; // 目的是接收 每个module名称
-//    String OPTIONS_PACKAGE_NAME = "packageNameForDiffAPT"; // 目的是接收 包名（APT 存放的包名）
+    String DIFF_MODULE_NAME = "DIFF_MODULE_NAME"; // 目的是接收 Module 名称
 
     String DIFF_API_PACKAGE = "top.wzmyyj.diff_api";
 
-    String MODEL_NAME_LAST = "$$Diff$$Model";
-    String FACTORY_NAME_LAST = "$$Diff$$Factory";
-    String FACTORY_HELPER_NAME = "Diff$$Create$$FactoryHelperImpl";
+    String MODEL_NAME_PRE = "Diff$$Model$$";
+    String FACTORY_HELPER_NAME = "Diff$$FactoryHelperImpl";
 
     String MODEL_PACKAGE_LAST = ".diff_model";
-    String FACTORY_PACKAGE_LAST = ".diff_factory";
-
+    String FACTORY_HELPER_PACKAGE = DIFF_API_PACKAGE + ".factory_helper";
 
     String TYPE_MODEL_TYPE = DIFF_API_PACKAGE + ".IDiffModelType";
     String TYPE_PAYLOAD = DIFF_API_PACKAGE + ".Payload";
     String TYPE_FACTORY = DIFF_API_PACKAGE + ".IDiffModelFactory";
-    String TYPE_FACTORY_HELPER = DIFF_API_PACKAGE + ".IDiffCreateFactoryHelper";
-    String TYPE_EQUALS_UTIL = DIFF_API_PACKAGE + ".EqualsUtil";
+    String TYPE_FACTORY_HELPER = DIFF_API_PACKAGE + ".IDiffFactoryHelper";
+    String TYPE_EQUALS_UTIL = DIFF_API_PACKAGE + ".utils.EqualsUtil";
 
     String BOOLEAN_TYPE = "java.lang.Boolean";
 

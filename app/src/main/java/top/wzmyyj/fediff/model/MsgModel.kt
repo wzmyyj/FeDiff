@@ -24,6 +24,6 @@ class MsgModel {
 
     var valid = false
 
-    @SameType
-    var user: UserModel? = null
+//    @SameType
+//    var user: UserModel? = null
 }

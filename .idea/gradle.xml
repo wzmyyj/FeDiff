@@ -12,6 +12,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/app_login" />
+            <option value="$PROJECT_DIR$/app_user" />
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/lib_diff_annotation" />
             <option value="$PROJECT_DIR$/lib_diff_api" />

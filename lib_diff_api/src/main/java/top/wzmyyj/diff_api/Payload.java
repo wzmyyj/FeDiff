@@ -16,6 +16,7 @@ import java.util.Set;
  * @version 1.0.0
  * @since 1.0.0
  */
+@SuppressWarnings({"unused", "unchecked"})
 public final class Payload {
 
     private static final String TAG = Payload.class.getSimpleName();

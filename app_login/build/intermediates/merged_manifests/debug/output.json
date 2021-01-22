@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "applicationId": "top.wzmyyj.login",
+  "variantType": "LIBRARY",
+  "elements": [
+    {
+      "outputType": {
+        "type": "MERGED_MANIFESTS"
+      },
+      "apkData": {
+        "type": "MAIN",
+        "splits": [],
+        "versionCode": 1002000,
+        "versionName": "1.2.0",
+        "outputFile": "app_login-debug.aar",
+        "fullName": "debug",
+        "baseName": "debug",
+        "dirName": ""
+      },
+      "path": "../../library_manifest/debug/AndroidManifest.xml",
+      "properties": {
+        "packageId": "top.wzmyyj.login",
+        "split": ""
+      }
+    }
+  ]
+}

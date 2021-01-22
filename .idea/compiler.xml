@@ -19,6 +19,8 @@
     </annotationProcessing>
     <bytecodeTargetLevel target="1.7">
       <module name="FeDiff.app" target="1.8" />
+      <module name="FeDiff.app_login" target="1.8" />
+      <module name="FeDiff.app_user" target="1.8" />
       <module name="FeDiff.buildSrc" target="1.8" />
       <module name="FeDiff.lib_diff_api" target="1.8" />
     </bytecodeTargetLevel>

@@ -113,7 +113,7 @@ public final class DiffModelHelper {
 
     @Nullable
     private IDiffModelType tryCreateDiff(@NonNull Object model) {
-        IDiffModelFactory factory = DiffModelFactoryManager.getInstance().getFactory(model);
+        IDiffModelFactory factory = FeDiff.getInstance().factoryManager().getFactory(model);
         if (factory != null) return factory.create();
         return null;
     }

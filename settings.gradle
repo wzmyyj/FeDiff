@@ -2,4 +2,6 @@ include ':lib_diff_api'
 include ':lib_diff_compiler'
 include ':lib_diff_annotation'
 include ':app'
+include ':app_user'
+include ':app_login'
 rootProject.name = "FeDiff"
