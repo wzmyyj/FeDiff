@@ -39,11 +39,15 @@ final class _FeDiff {
         return instance;
     }
 
-    public boolean init(Application application, boolean debug) {
+    public boolean init(Application application, boolean debug, List<IDiffFactoryHelper> helperList) {
         mContext = application;
         this.debug = debug;
         logger.showLog(debug);
-        startFind();
+        if (helperList != null) {
+            factoryManager.addHelpers(helperList);
+        } else {
+            startFind();
+        }
         logger.info(Constants.TAG, "FeDiff init success!");
         return true;
     }

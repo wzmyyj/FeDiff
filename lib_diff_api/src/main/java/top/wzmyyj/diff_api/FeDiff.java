@@ -2,6 +2,8 @@ package top.wzmyyj.diff_api;
 
 import android.app.Application;
 
+import java.util.List;
+
 import top.wzmyyj.diff_api.utils.ILogger;
 
 /**
@@ -37,9 +39,13 @@ public final class FeDiff {
         init(app, false);
     }
 
-    public synchronized static void init(Application app, boolean debug) {
+    public static void init(Application app, boolean debug) {
+        init(app, debug, null);
+    }
+
+    public synchronized static void init(Application app, boolean debug, List<IDiffFactoryHelper> helperList) {
         if (hasInit) return;
-        hasInit = _FeDiff.getInstance().init(app, debug);
+        hasInit = _FeDiff.getInstance().init(app, debug, helperList);
     }
 
     public static void setLogger(ILogger logger) {
