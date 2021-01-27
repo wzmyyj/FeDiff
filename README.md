@@ -24,6 +24,11 @@ app.build.gradle.kts：lastVersion = xxx {see Releases}
  annotationProcessor("com.github.wzmyyj.FeDiff:lib_diff_compiler:lastVersion")
 ```
 #### How Use
+init in application:
+```
+FeDiff.init(this)
+```
+
 model
 ```
 // The attributes of the annotation tag will be used for comparison.
