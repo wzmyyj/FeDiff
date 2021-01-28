@@ -4,16 +4,16 @@ top/wzmyyj/user/DataBinderMapperImpl.java
  top.wzmyyj.user.DataBinderMapperImpl$InnerLayoutIdLookup
 top/wzmyyj/user/BuildConfig.java
  top.wzmyyj.user.BuildConfig
-androidx/databinding/DataBindingComponent.java
- androidx.databinding.DataBindingComponent
-androidx/databinding/library/baseAdapters/BR.java
- androidx.databinding.library.baseAdapters.BR
-top/wzmyyj/user/DataBindingInfo.java
- top.wzmyyj.user.DataBindingInfo
-top/wzmyyj/user/BR.java
- top.wzmyyj.user.BR
 top/wzmyyj/diff_api/factory_helper/Diff$$FactoryHelperImpl_user.java
  top.wzmyyj.diff_api.factory_helper.Diff$$FactoryHelperImpl_user
 top/wzmyyj/user/diff_model/Diff$$Model$$UserModel.java
  top.wzmyyj.user.diff_model.Diff$$Model$$UserModel
  top.wzmyyj.user.diff_model.Diff$$Model$$UserModel$Factory
+top/wzmyyj/user/DataBindingInfo.java
+ top.wzmyyj.user.DataBindingInfo
+top/wzmyyj/user/BR.java
+ top.wzmyyj.user.BR
+androidx/databinding/library/baseAdapters/BR.java
+ androidx.databinding.library.baseAdapters.BR
+androidx/databinding/DataBindingComponent.java
+ androidx.databinding.DataBindingComponent

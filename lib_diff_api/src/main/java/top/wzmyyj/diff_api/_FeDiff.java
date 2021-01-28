@@ -85,6 +85,7 @@ final class _FeDiff {
         try {
             Set<String> set = ClassUtil.getFileNameByPackageName(mContext,
                     DefaultPoolExecutor.getInstance(), Constants.FACTORY_HELPER_PACKAGE_NAME);
+            DefaultPoolExecutor.getInstance().shutdown();
             logger.info(Constants.TAG, "scan dex set: " + set);
             writeSetInSp(set);
             factoryManager.addHelpers(loadClass(set));
