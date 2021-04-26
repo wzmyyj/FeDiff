@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.WeakHashMap;
 
 /**
@@ -22,14 +21,14 @@ public final class DiffModelHelper {
     }
 
     private final Map<Object, Data> bindMap = new WeakHashMap<>();
-    private boolean byObjectsEquals = true;
+    private boolean byObjectsEquals = false;
 
     /**
-     * 没有依据时是否用 {@link Objects#equals(Object, Object)} 来判断是否同一行。
+     * 没有依据时是否用 {@link Object#equals(Object)} 来判断是否相同。
      *
      * @param use 是否使用
      */
-    public synchronized void isSameItemByObjectsEquals(boolean use) {
+    public synchronized void isSameByObjectsEquals(boolean use) {
         this.byObjectsEquals = use;
     }
 
@@ -42,11 +41,10 @@ public final class DiffModelHelper {
      */
     public synchronized boolean isSameItem(@NonNull Object oldModel, @NonNull Object newModel) {
         IDiffModelType diff = findDiff(oldModel);
-        if (diff == null) return false;
-        if (diff.canHandle(newModel) && diff.sameItemCount() > 0) {
+        if (diff != null && diff.canHandle(newModel) && diff.sameItemCount() > 0) {
             return diff.isSameItem(newModel);
         }
-        return byObjectsEquals && Objects.equals(oldModel, newModel);
+        return byObjectsEquals && oldModel.equals(newModel);
     }
 
     /**
@@ -58,11 +56,10 @@ public final class DiffModelHelper {
      */
     public synchronized boolean isSameContent(@NonNull Object oldModel, @NonNull Object newModel) {
         IDiffModelType diff = findDiff(oldModel);
-        if (diff == null) return false;
-        if (diff.canHandle(newModel) && diff.sameContentCount() > 0) {
+        if (diff != null && diff.canHandle(newModel) && diff.sameContentCount() > 0) {
             return diff.isSameContent(newModel);
         }
-        return false;
+        return byObjectsEquals && oldModel.equals(newModel);
     }
 
     /**
@@ -75,8 +72,7 @@ public final class DiffModelHelper {
     @Nullable
     public synchronized Payload getPayload(@NonNull Object oldModel, @NonNull Object newModel) {
         IDiffModelType diff = findDiff(oldModel);
-        if (diff == null) return null;
-        if (diff.canHandle(newModel) && diff.sameContentCount() > 0) {
+        if (diff != null && diff.canHandle(newModel) && diff.sameContentCount() > 0) {
             return diff.payload(newModel);
         }
         return null;
